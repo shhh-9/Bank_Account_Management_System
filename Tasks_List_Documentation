@@ -13,47 +13,47 @@ There will be two types of users:
 
 ====FEATURES====
 For CUSTOMER:
-  1. Account Creation (Assigned: NONE)
+  1. Account Creation (Assigned: Me)
       Create an account. (Automatic Process) 
       Add personal details in that account. PASSWORD PROTECTED.
       Send a notification to the administators.
 
-  2. Deposit/Withdraw (Assigned: NONE)
+  2. Deposit/Withdraw (Assigned: Musab)
       Allow customer to deposit and withdraw currency.
       Make note of currency and withdraw in that specific currency.
       Allow for notes to be added in each deposit/withdrawal.
 
-  3. Transactions Between Accounts (Assigned: NONE)
+  3. Transactions Between Accounts (Assigned: Aqib)
       Allow for transfer of currency between accounts.
       Take note of currency exchange rates.
       Allow for notes to be added in each deposit/withdrawal.
 
-  4. Tax Calculation (Assigned: NONE)
+  4. Tax Calculation (Assigned: NONE) (Done in all else)
       Tax calculation for each transaction.
       Tax calculation for each withdrawal.
 
-  5. Loans (Assigned: NONE)
+  5. Loans (Assigned: Shahmeer)
       Loan requests.
       Interest according to time. (Day/Month/Year)
 
-  6. Contact (Assigned: NONE)
+  6. Contact (Assigned: Musab)
       Sending a request to the administrator.
       (Any administrator can address the complaint.)
 
 For ADMINISTRATOR:
-  1. Customer Profile (Assigned: NONE)
+  1. Customer Profile (Assigned: Me)
       Updating customer details.
 
-  2. Reports (Assigned: NONE)
+  2. Reports (Assigned: Musab)
       Obtaining customer details.
       Pulling up entire transaction history.
       Pulling up all tax and loan payments.
 
-  3. Configure Rates (Assigned: NONE)
+  3. Configure Rates (Assigned: Aqib)
       Configuring tax rates.
       Configuring interest rates.
 
-  4. Addressing Complaints (Assigned: NONE)
+  4. Addressing Complaints (Assigned: Shahmeer)
       List all complaints from customers.
 
 For OTHERS:
