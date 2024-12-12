@@ -1,0 +1,87 @@
+include<iostream>
+
+using namespace std;
+
+class userAccount {
+	private
+		string name, pass;
+		string balance;
+		
+	public
+		userAccount (const string& name, const string& pass, const double& balance)
+			: name(name), pass(pass), balance(balance) {}
+			
+		string getName() const {return name;}
+	    string getPass() const {return pass;}
+	    double getBalance() const {return balance;}
+	    
+	    void saveToFile(const string& filename) {
+        ofstream file(filename);
+        if (file.is_open()) {
+            file << name << "," << password << "," << balance << endl;
+            file.close();
+        }
+        else {
+            cout << "Error opening file for saving." << endl;
+        }
+    }
+
+    static Account loadFromFile(const string& filename) {
+        ifstream file(filename);
+        string name, password;
+        double balance;
+
+        if (file.is_open()) {
+            string line;
+            getline(file, line);
+
+            stringstream ss(line);
+            getline(ss, name, ',');
+            getline(ss, password, ',');
+            ss >> balance;
+
+            file.close();
+            return Account(name, password, balance);
+        }
+        else {
+            cerr << "Error opening file for loading." << endl;
+            return Account();
+        }
+    }
+};
+
+int main(){
+	
+	cout << "|======MENU======|\n   1. Create an account.\n   2. Use an existing account.   0. Exit the program.\nInput (PASS for admin): ";
+	cin >> userChoice;
+	
+	do {
+		if (userChoice == 0){
+			return 0;
+		}
+		else if (userChoice == 1){
+			accountCreate();
+		}
+		else if (userChoice == 2){
+			cout << "|===ACCOUNT-MENU===|\n   1. Deposit balance.\n   2. Withdraw balance.\n   3. View transaction history.\n   0. Exit menu.\nInput: ";
+			cin >> accountChoice;
+			while (accountChoice != 0){
+				switch (accountChoice) {
+	            case 1:
+	                depositBalance();
+	                break;
+	            case 2:
+	                withdrawBalance();
+	                break;
+	            case 3:
+	                transactionHistory();
+	                break;
+	            default:
+	                cout << "Invalid value entered. Try again." << endl;
+	    	}
+		}
+		else {
+			cout << "Invalid value entered. Try again." << endl;
+		}
+	} while (true);
+}
