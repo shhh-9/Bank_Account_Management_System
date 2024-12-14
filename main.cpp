@@ -1,8 +1,58 @@
 #include<iostream>
-
+#include<fstream>
+#include<cstdlib>
 using namespace std;
 
 // CLASS SPACE.
+
+class bankAccount {
+private:
+    string name, password;
+    int balance;
+
+public:
+    bankAccount(string fileName) {
+        ifstream file(fileName);
+        if (!file.is_open()) {
+            cerr << "ERROR: Could not open file." << endl << endl;
+            return;
+        }
+
+        int currentLine = 0;
+        string line;
+        while (getline(file, line)) {
+            currentLine++;
+            switch (currentLine) {
+                case 1:
+                    name = line;
+                    break;
+                case 2:
+                    password = line;
+                    break;
+                case 3:
+                    balance = stoi(line);
+                    break;
+            }
+        }
+        file.close();
+    }
+
+    string getName() { return name; }
+    string getPassword() { return password; }
+    int getBalance() { return balance; }
+
+    void updateName(string newName) {
+        name = newName;
+    }
+
+    void updatePassword(string newPassword) {
+        password = newPassword;
+    }
+
+    void updateBalance(int newBalance) {
+        balance = newBalance;
+    }
+};
 
 // CLASS SPACE END.
 
