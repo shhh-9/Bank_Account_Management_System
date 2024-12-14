@@ -2,6 +2,16 @@
 
 using namespace std;
 
+// CLASS SPACE.
+
+// CLASS SPACE END.
+
+
+// FUNCTIONS SPACE.
+
+// FUNCTIONS SPACE END.
+
+
 int main(){
 	
 	do {
