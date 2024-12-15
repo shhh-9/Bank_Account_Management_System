@@ -179,3 +179,5 @@ int main(){
 		
 	}
 }
+
+cout << "Thia is a test." << endl;
