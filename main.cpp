@@ -1,6 +1,7 @@
 #include<iostream>
 #include<fstream>
 #include<cstdlib>
+#include<ctime>
 using namespace std;
 
 // CLASS SPACE.
@@ -58,6 +59,63 @@ public:
 
 
 // FUNCTIONS SPACE.
+
+void accountCreate(){
+	string accName,accPassword,accID;
+ cin.ignore();
+    cout << "Enter an account name: ";
+    getline(cin, accName);
+    cout << "Enter a password for your account: ";
+    getline(cin, accPassword);
+
+    srand(static_cast<unsigned int>(time(0)));
+    while (true) {
+        accID = to_string(rand() % 9000);
+        ifstream file("accountIDs.txt");
+
+        if (!file.is_open()) {
+            cerr << "ERROR: Could not open file." << endl;
+            return;
+        }
+        else {
+            string line;
+            bool found = false;
+            while (getline(file, line)) {
+                if (accID == line) {
+                    found = true;
+                    break;
+                }
+            }
+            file.close();
+            if (!found) {
+                break;
+            }
+        }
+    }
+
+    ofstream file("Users/" + accID + ".txt");
+    cout << "Your generated account ID is " << accID << "." << endl << endl;
+    if (!file.is_open()) {
+        cerr << "ERROR: Could not open file." << endl;
+        return;
+    }
+    else {
+        file << accName << endl;
+        file << accPassword << endl;
+        file << 0 << endl;
+        file.close();
+    }
+
+    ofstream file2("accountIDs.txt", ios::app);
+    if (!file2.is_open()) {
+        cerr << "ERROR: Could not open file." << endl << endl;
+        return;
+    }
+    else {
+        file2 << accID << endl;
+        file2.close();
+    }
+}
 
 // FUNCTIONS SPACE END.
 
