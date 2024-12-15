@@ -110,10 +110,65 @@ string accountSelect() {
     return accountID;
 }
 
+// AQIB HERE.
+void initialize() {
+    ifstream checkFile("accountIDs .txt");
+    if (!checkFile.is_open()) {
+        ofstream file("accountIDs.txt");
+        file.close();
+    }
+    if (_mkdir("Users") == 0){
+    	// FOLDER CREATED.
+	}
+}
+
+void closeAccount(string accountID) {
+    ifstream inFile("accountIDs.txt");
+    ofstream outFile("temp.txt");
+    string line;
+
+    while (getline(inFile, line)) {
+        if (line != accountID) {
+            outFile << line << endl;
+        }
+    }
+    inFile.close();
+    outFile.close();
+
+    remove("accountIDs.txt");
+    rename("temp.txt", "accountIDs.txt");
+
+    string filePath = "Users/" + accountID + ".txt";
+    remove(filePath.c_str());
+
+    string transactionFilePath = "Users/" + accountID + "T.txt";
+    remove(transactionFilePath.c_str());
+}
+
+void reset() {
+    ifstream accountIDsFile("accountIDs.txt");
+    if (!accountIDsFile.is_open()) {
+        cerr << "ERROR: Could not open accountIDs.txt." << endl;
+        return;
+    }
+
+    string accountID;
+    while (getline(accountIDsFile, accountID)) {
+        string accountFilePath = "Users/" + accountID + ".txt";
+        string transactionFilePath = "Users/" + accountID + "T.txt";
+
+        remove(accountFilePath.c_str());
+        remove(transactionFilePath.c_str());
+    }
+    accountIDsFile.close();
+
+    ofstream resetFile("accountIDs.txt", ios::trunc);
+    resetFile.close();
+    initialize();
+}
+
 // MUSAB HERE.
 
-
-// AQIB HERE.
 
 
 // =====FUNCTIONS SPACE END.
