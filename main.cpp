@@ -7,7 +7,58 @@
 using namespace std;
 
 // =====CLASS SPACE.
+class bankAccount {
+private:
+    string name, password;
+    int balance;
 
+public:
+    bankAccount(string fileName) {
+        ifstream file(fileName);
+        if (!file.is_open()) {
+            cerr << "ERROR: Could not open file." << endl << endl;
+            return;
+        } else {
+            int currentLine = 0;
+            string line;
+            while (getline(file, line)) {
+                currentLine++;
+                if (currentLine == 1) {
+                    name = line;
+                }
+                if (currentLine == 2) {
+                    password = line;
+                }
+                if (currentLine == 3) {
+                    balance = stoi(line);
+                }
+            }
+            file.close();
+        }
+    }
+
+    string getName() { return name; }
+    string getPassword() { return password; }
+    int getBalance() { return balance; }
+
+    void updateName(string newName) {
+        name = newName;
+    }
+
+    void updatePassword(string newPassword) {
+        password = newPassword;
+    }
+
+    void updateBalance(int newBalance) {
+        balance = newBalance;
+    }
+
+    void closeAccount() {
+        name = "";
+        password = "";
+        balance = 0;
+    }
+};
 
 
 // =====CLASS SPACE END.
@@ -168,7 +219,57 @@ void reset() {
 }
 
 // MUSAB HERE.
+void updateAccount(string accountFileName, bankAccount &userAccount) {
+    ofstream outFile("Users/" + accountFileName);
+    if (!outFile.is_open()) {
+        cerr << "ERROR: Could not open file for writing." << endl << endl;
+        return;
+    } else {
+        outFile << userAccount.getName() << endl;
+        outFile << userAccount.getPassword() << endl;
+        outFile << userAccount.getBalance() << endl;
+        outFile.close();
+    }
+}
 
+void logTransaction(const string &accountID, const string &message) {
+    ofstream transactionFile("Users/" + accountID + "T.txt", ios::app);
+    if (transactionFile.is_open()) {
+        transactionFile << message << endl;
+        transactionFile.close();
+    }
+}
+void transferMoney(bankAccount &senderAccount) {
+    string recipientID;
+    cout << "Enter the recipient's account ID: ";
+    cin >> recipientID;
+
+    bankAccount recipientAccount("Users/" + recipientID + ".txt");
+    if (recipientAccount.getName() == "") {
+        cout << "Recipient account does not exist." << endl;
+        return;
+    }
+
+    int amount;
+    cout << "Enter the amount to transfer: ";
+    cin >> amount;
+
+    if (amount > senderAccount.getBalance()) {
+        cout << "Insufficient funds." << endl;
+        return;
+    }
+
+    senderAccount.updateBalance(senderAccount.getBalance() - amount);
+    recipientAccount.updateBalance(recipientAccount.getBalance() + amount);
+
+    updateAccount(senderAccount.getName() + ".txt", senderAccount);
+    updateAccount(recipientID + ".txt", recipientAccount);
+
+    logTransaction(senderAccount.getName(), "Transferred " + to_string(amount) + " to " + recipientAccount.getName());
+    logTransaction(recipientID, "Received " + to_string(amount) + " from " + senderAccount.getName());
+
+    cout << "Transfer successful! " << amount << " has been transferred to " << recipientAccount.getName() << "." << endl;
+}
 
 
 // =====FUNCTIONS SPACE END.
