@@ -276,7 +276,187 @@ void transferMoney(bankAccount &senderAccount) {
 
 
 int main(){
+    initialize();
+    int userChoice, settingsChoice;
+    string userAccountFile, accountPassword, userPassword;
+    int accountChoice, accountBalance, userAmount;
 
+    do {
+        cout << endl << "|=====MENU=====|" << endl;
+        cout << "   1. Create an account.\n   2. Use an existing account.\n   3. Reset all accounts.\n   0. Exit the program.\nInput: ";
+        cin >> userChoice;
+
+        if (userChoice == 1) {
+            accountCreate();
+        }
+
+        else if (userChoice == 2) {
+            userAccountFile = accountSelect();
+            if (userAccountFile == "") {
+                continue;
+            }
+            bankAccount userAccount("Users/" + userAccountFile + ".txt");
+
+            do {
+                accountPassword = userAccount.getPassword();
+                cout << "Enter password: ";
+                cin >> userPassword;
+                if (userPassword == accountPassword) {
+                    cout << "Welcome, " << userAccount.getName() << "." << endl;
+                    break;
+                } else {
+                    cout << "Incorrect password. Try again." << endl;
+                }
+            } while (true);
+
+            do {
+            	bool closeCheck = false;
+                accountBalance = userAccount.getBalance();
+                string accountName = userAccount.getName();
+                cout << endl << "|===ACCOUNT-MENU===|" << endl;
+                cout << "   1. Deposit amount.\n   2. Withdraw amount.\n   3. Transfer money.\n   4. View transaction history.\n   5. Account settings.\n   0. Exit account settings.\nInput (Account balance: " << accountBalance << "): ";
+                cin >> accountChoice;
+
+                switch (accountChoice) {
+                    case 1:
+					    cout << "Enter the amount you want to deposit: ";
+					    cin >> userAmount;
+					    accountBalance += userAmount;
+					    userAccount.updateBalance(accountBalance);
+					
+					    {
+					        string message = "Deposited " + to_string(userAmount) + ".";
+					        logTransaction(userAccountFile, message);
+					        cout << message << ". New balance: " << accountBalance << endl;
+					    }
+					    break;
+					case 2:
+					    cout << "Enter the amount you want to withdraw: ";
+					    cin >> userAmount;
+					    if (userAmount > accountBalance) {
+					        cout << "Insufficient funds." << endl << endl;
+					    } else {
+					        accountBalance -= userAmount;
+					        userAccount.updateBalance(accountBalance);
+					
+					        {
+					            string message = "Withdrew " + to_string(userAmount) + ".";
+					            logTransaction(userAccountFile, message);
+					            cout << message << ". New balance: " << accountBalance << endl;
+					        }
+					    }
+					    break;
+					case 3:
+					    {
+					        string recipientID;
+					        cout << "Enter the recipient's account ID: ";
+					        cin >> recipientID;
+					
+					        bankAccount recipientAccount("Users/" + recipientID + ".txt");
+					        if (recipientAccount.getName() == "") {
+					            cout << "Recipient account does not exist." << endl;
+					            break;
+					        }
+					
+					        cout << "Enter the amount to transfer: ";
+					        cin >> userAmount;
+					
+					        if (userAmount > accountBalance) {
+					            cout << "Insufficient funds." << endl;
+					            break;
+					        }
+					
+					        accountBalance -= userAmount;
+					        userAccount.updateBalance(accountBalance);
+					
+					        int recipientBalance = recipientAccount.getBalance() + userAmount;
+					        recipientAccount.updateBalance(recipientBalance);
+					
+					        updateAccount(userAccountFile + ".txt", userAccount);
+					        updateAccount(recipientID + ".txt", recipientAccount);
+					
+					        string senderMessage = "Transferred " + to_string(userAmount) + " to " + recipientAccount.getName() + ".";
+					        string recipientMessage = "Received " + to_string(userAmount) + " from " + userAccount.getName() + ".";
+					
+					        logTransaction(userAccountFile, senderMessage);
+					        logTransaction(recipientID, recipientMessage);
+					
+					        cout << senderMessage << ". New balance: " << accountBalance << endl;
+					    }
+					    break;
+					
+					case 4:
+					    {
+					        string transactionFile = "Users/" + userAccountFile + "T.txt";
+					        ifstream file(transactionFile);
+					
+					        if (!file.is_open()) {
+					            cout << "No transaction history available." << endl;
+					        } else {
+					            string line;
+					            cout << "Transaction History:" << endl;
+					            while (getline(file, line)) {
+					                cout << line << endl;
+					            }
+					            file.close();
+					        }
+					    }
+					    break;
+
+					case 5:
+                        do {
+                            cout << endl << "|SETTINGS|" << endl;
+                            cout << "1. Change account name.\n2. Change account password.\n3. Close account.\n0. Exit settings.\nInput: ";
+                            cin >> settingsChoice;
+                            if (settingsChoice == 1) {
+                                cout << "Enter the new account name: ";
+                                cin.ignore();
+                                getline(cin, accountName);
+                                userAccount.updateName(accountName);
+                                break;
+                            } else if (settingsChoice == 2) {
+                                cout << "Enter the new password: ";
+                                cin >> accountPassword;
+                                userAccount.updatePassword(accountPassword);
+                                break;
+                            } else if (settingsChoice == 3) {
+                                closeAccount(userAccountFile);
+                                cout << "Account closed successfully." << endl;
+                                userAccountFile = "";
+                                closeCheck = true;
+                                break;
+                            } else if (settingsChoice == 0) {
+                                break;
+                            } else {
+                                cout << "Invalid input. Try again." << endl;
+                            }
+                        } while (true);
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        cout << "Invalid input entered. Try again." << endl;
+                        break;
+                }
+                if (closeCheck){break;}
+                updateAccount(userAccountFile + ".txt", userAccount);
+            } while (accountChoice != 0);
+        }
+
+        else if (userChoice == 3) {
+            reset();
+            cout << "All accounts have been reset." << endl;
+        }
+
+        else if (userChoice == 0) {
+            return 0;
+        }
+
+        else {
+            cout << "Invalid value entered. Try again." << endl;
+        }
+
+    } while (true);
 	
 
 }
