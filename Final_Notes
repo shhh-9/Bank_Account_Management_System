@@ -2,3 +2,9 @@ Make random integer generate a 6 digit number.
 Fix indentation.
 Comments.
 Add message for menu closed successfully.
+
+Checks for string in case of integer value needed.
+errorCheck()
+ prints if error.
+ returns false.
+ use with while making one statement.
