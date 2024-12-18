@@ -70,7 +70,8 @@ class bankAccount {
 // CLASS SPACE END.
 
 // FUNCTION SPACE.
-
+// Shahmeers Functions.
+//Shahmeer Function 1.
 void accountCreate() {
     string accountName, accountPassword, accountID; // Declarations.
 
@@ -135,7 +136,7 @@ void accountCreate() {
     ofstream transactionFile("Users/" + accountID + "T.txt");
     transactionFile.close();
 }
-
+//shahmeer function 1 ends here.
 // Selecting an account throuh it's accountID.
 string accountSelect() {
     string accountID; // Declarations.
