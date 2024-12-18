@@ -295,6 +295,12 @@ int main() {
 		// An existing account will be selected.
         else if (userChoice == 2) {
             userAccountFile = accountSelect(); // AccountID will be stored through the function.
+            {
+            	// In case of an error in accountSelect, loop will restart.
+            	if (userAccountFile == ""){
+            		continue;
+				}
+			}
             bankAccount userAccount("Users/" + userAccountFile + ".txt"); // A user account is declared as an existing class.
 
 			// Ask for password. And repeat till password is right. (Infinite loop.
