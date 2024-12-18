@@ -137,6 +137,9 @@ void accountCreate() {
     transactionFile.close();
 }
 //shahmeer function 1 ends here.
+
+
+//Shahmeer Function 2.
 // Selecting an account throuh it's accountID.
 string accountSelect() {
     string accountID; // Declarations.
@@ -177,6 +180,7 @@ string accountSelect() {
     return accountID;
 }
 
+//shahmeer function 2 ends here.
 // Updating an account through values in it's class.
 void updateAccount(string accountFileName, bankAccount &userAccount) {
     ofstream outFile("Users/" + accountFileName); // Opening file.
