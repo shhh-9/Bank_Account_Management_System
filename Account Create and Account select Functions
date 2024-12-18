@@ -1,3 +1,9 @@
+#include <iostream>
+using namespace std;
+
+
+//Account Create starts here.
+
 void accountCreate() {
     string accountName, accountPassword, accountID; // Declarations.
 
@@ -65,7 +71,7 @@ void accountCreate() {
 
 
 
-
+// ACCOUNT sELECT STARTS HERE
 // Selecting an account throuh it's accountID.
 string accountSelect() {
     string accountID; // Declarations.
