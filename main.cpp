@@ -6,6 +6,7 @@
 
 // ASSUMPTION # 1: When integers are inputted, strings will cause an error.
 // ASSUMPTION # 2: Amounts are always positive.
+// ASSUMPTION # 3: Files are not opened and tampered with.
 
 using namespace std;
 
